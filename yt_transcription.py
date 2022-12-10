@@ -73,7 +73,7 @@ def transcribe_audio(url):
 
     # Use ffmpeg to convert the MP3 file to WAV
     if not os.path.exists(audiofile):
-        subprocess.call(['ffmpeg', '-i', 'audio.mp3', 'audio.wav'])
+        subprocess.call(['ffmpeg', '-i', tmp_audio_file, audiofile])
     else:
         print(f'{audiofile} already exists')
 
@@ -92,6 +92,6 @@ def transcribe_audio(url):
 if __name__ == '__main__':
 
     import sys
-    link = sys.argv[1]
-    # ytlink = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
+    # link = sys.argv[1]
+    link = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
     transcribe_audio(str(link))
