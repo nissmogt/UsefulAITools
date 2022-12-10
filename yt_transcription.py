@@ -94,4 +94,4 @@ if __name__ == '__main__':
     import sys
     link = sys.argv[1]
     # ytlink = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
-    transcribe_audio(link)
+    transcribe_audio(str(link))
