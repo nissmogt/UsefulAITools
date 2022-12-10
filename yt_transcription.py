@@ -18,7 +18,7 @@ from transformers import pipeline
 def download_audio(url):
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': '%(title)s.mp3',
+        'outtmpl': 'audio/audio.mp3',
         'external_downloader': 'aria2c',
         'external_downloader_args': ['-x16', '-k1M'],
         'executable': '/usr/bin/aria2c',
@@ -36,6 +36,10 @@ def download_audio(url):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=True)
         video_title = info_dict.get('title', None)
+    # move file to audio directory
+    # os.rename(video_title + '.mp3', os.path.join('audio', video_title + '.mp3'))
+    # video_title = ''.join(e for e in video_title if e.isalnum() or e == ' ')
+    video_title = "audio.mp3"
     return video_title
 
 
@@ -93,5 +97,5 @@ if __name__ == '__main__':
 
     import sys
     link = sys.argv[1]
-    # link = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
+    # link = 'https://www.youtube.com/watch?v=9FudzqfpLLs'
     transcribe_audio(str(link))
