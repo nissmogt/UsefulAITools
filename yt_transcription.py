@@ -92,6 +92,6 @@ def transcribe_audio(url):
 if __name__ == '__main__':
 
     import sys
-    # link = sys.argv[1]
-    link = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
+    link = sys.argv[1]
+    # link = 'https://www.youtube.com/watch?v=9bZkp7q19f0'
     transcribe_audio(str(link))
