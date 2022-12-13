@@ -13,11 +13,17 @@ This installs the necessary `youtube-dl` and `OpenAI Whisper` libraries.
 - *macOS*: ```brew install ffmpeg```. Must have Homebrew installed.
 - *Ubuntu*: ```sudo apt-get install ffmpeg```
 
+3. Download the required aria2c binary for your OS from [here](https://aria2.github.io/). 
+Place the binary in the `bin` folder. This package is nice because it supports a number of advanced features such 
+as download acceleration, resumable downloads, and support for downloading files from multiple sources. 
+Or use the following commands to install:
+- *macOS*: ```brew install aria2```. Must have Homebrew installed.
+- *Ubuntu*: ```sudo apt-get install aria2```
 ### Testing
-3. Run ```python yt_transcriber.py``` to start the program. When prompted, leave 
+1. Run ```python yt_transcriber.py``` to start the program. When prompted, leave 
 Youtube URL blank to test with default video.
 
-4. The transcribed text will be saved to a file called *audio.txt* in 
+2. The transcribed text will be saved to a file called *audio.txt* in 
 a directory called *transcriptions*.
 
 ### Usage
