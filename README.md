@@ -21,6 +21,11 @@ Youtube URL blank to test with default video.
 a directory called *transcriptions*.
 
 ### Usage
+Given a valid YouTube URL, this program downloads YouTube audio and transcribes it using OpenAI Whisper. It creates two directories: 
+- **transcriptions**: Stores the transcribed text in a file called *audio.txt*.
+- **audio**: Temporarily stores the downloaded audio in a file called *audio.mp3* and contains the converted WAV file. 
+The program deletes both files (can be changed to keep the audio files if you want).
+
 To use the program, simply enter the URL of the YouTube video you want to transcribe either like this:
 
 ```python yt_transcriber.py PASTE_URL_HERE```
