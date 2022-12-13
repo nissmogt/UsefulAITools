@@ -34,7 +34,7 @@ The program deletes both files (can be changed to keep the audio files if you wa
 
 To use the program, simply enter the URL of the YouTube video you want to transcribe either like this:
 
-```python yt_transcriber.py PASTE_URL_HERE```
+```python yt_transcriber.py 'PASTE_URL_HERE'``` **Note: The URL must be in quotes.**
 
 or by pasting the url when prompted.
 
