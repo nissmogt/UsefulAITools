@@ -3,6 +3,8 @@
 #
 # Author: @nissmogt
 # Date: 2021-12-09
+# Version: 1.0
+# Uses python 3.8.10
 #
 # Usage: python yt_transcription.py <youtube_url>
 

@@ -4,6 +4,7 @@
 ```yt_transcriber.py```: Transcribe YouTube videos using OpenAI Whisper.
 
 ### Installation 
+**Note: All testing was done using Python 3.8.**
 1. Run ```pip install -r requirements.txt``` to install dependencies.
  
 This installs the necessary `youtube-dl` and `OpenAI Whisper` libraries.
