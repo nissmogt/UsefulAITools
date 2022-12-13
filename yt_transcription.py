@@ -85,9 +85,16 @@ def transcribe_audio(url):
 if __name__ == '__main__':
     import sys
 
-    # link = sys.argv[1]
-    # link = 'https://www.youtube.com/watch?v=v26CcifgEq4'  # toast masters speech
-    # link = 'https://www.youtube.com/watch?v=wMBHQktcSQ0'  # chris voigt bio talk
-    link = 'https://www.youtube.com/watch?v=2bZi3Xm9tJE'
-    # link = 'https://www.youtube.com/watch?v=9FudzqfpLLs'
-    transcribe_audio(str(link))
+    # add arguments to the script to run it from the command line
+    if len(sys.argv) > 1:
+        url = sys.argv[1]
+    else:
+        url = input("Enter YouTube URL (leave blank to test): ")
+    # add a test url if no url is provided
+    if not url:
+        # url = 'https://www.youtube.com/watch?v=wMBHQktcSQ0'  # chris voigt bio talk
+        # url = 'https://www.youtube.com/watch?v=2bZi3Xm9tJE'
+        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+    transcribe_audio(str(url))
+
