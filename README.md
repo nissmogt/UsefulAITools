@@ -41,3 +41,15 @@ or by pasting the url when prompted.
 Enjoy and please submit any issues you find to the Issues tab!
 
 Thanks!
+
+### Instructions for noobs
+1. To clone this repository, you will need to have Git installed on your computer. If you do not already have Git installed, 
+you can download and install it from the official website [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+2. Once you have Git installed, you can follow these steps to clone the repository:
+
+3. Open a terminal or command prompt and navigate to the directory where you want to clone the repository.
+Run the following command to clone the repository:```git clone nissmogt/UsefulAITools```
+4. See steps 1-3 in the Installation section above to install the dependencies and run the program.
+5. Run a test using instructions in Testing section above.
+6. You are now ready to use. Congrats noob, you're not a noob anymore. Enjoy!
