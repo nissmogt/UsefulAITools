@@ -8,10 +8,22 @@
 
 
 import os
+import whisper
 import youtube_dl
 import subprocess
 from pathlib import Path
 from transformers import pipeline
+
+
+# Check if the audio file exists
+def check_audio_file(audiofile):
+    import contextlib
+    import wave
+    try:
+        with contextlib.closing(wave.open(audiofile)) as f:
+            return True
+    except:
+        return False
 
 
 # Download the audio from a given URL, set outtmpl based on video title, and return video title
@@ -36,25 +48,11 @@ def download_audio(url):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=True)
         video_title = info_dict.get('title', None)
-    # move file to audio directory
-    # os.rename(video_title + '.mp3', os.path.join('audio', video_title + '.mp3'))
-    # video_title = ''.join(e for e in video_title if e.isalnum() or e == ' ')
     video_title = "audio.mp3"
     return video_title
 
 
 def transcribe_audio(url):
-
-    # Check if the audio file exists
-    def check_audio_file(audio_file):
-        import contextlib
-        import wave
-        try:
-            with contextlib.closing(wave.open(audio_file)) as f:
-                return True
-        except:
-            return False
-
     # Set the audio and transcription paths
     audio_path = Path('audio')
     transcription_path = Path('transcriptions')
@@ -65,37 +63,31 @@ def transcribe_audio(url):
     if not transcription_path.exists():
         transcription_path = transcription_path.mkdir()
 
-    tmp_audio_file = os.path.join(audio_path, 'audio.mp3')
-    if not os.path.exists(tmp_audio_file):
-        title = download_audio(url)
-    else:
-        # get title of mp3 file
-        title = os.path.basename(tmp_audio_file).strip('.mp3')
+    title = download_audio(url)
 
-    audiofile = os.path.join(audio_path, title + '.wav')
-    print(audiofile)
+    # Convert the MP3 file to WAV
+    tmp_audio_file = os.path.join(audio_path, title)
+    audiofile = os.path.join(audio_path, f"{title}.wav")
+    subprocess.call(['ffmpeg', '-i', tmp_audio_file, '-acodec', 'pcm_s16le', '-ac', '1',
+                     '-ar', '16000', audiofile])
 
-    # Use ffmpeg to convert the MP3 file to WAV
-    if not os.path.exists(audiofile):
-        subprocess.call(['ffmpeg', '-i', tmp_audio_file, audiofile])
-    else:
-        print(f'{audiofile} already exists')
+    # Use OpenAI Whisper to transcribe the wav audio
+    model = whisper.load_model("base")
+    transcription = model.transcribe(audiofile)
+    with open(os.path.join(transcription_path, title.strip(".mp3") + ".txt"), 'a') as f:
+        f.write(transcription['text'] + ' ')
 
-    # load the model and set max tokens to max length of the audio file
-    transcriber = pipeline(model="openai/whisper-base")
-
-    # transcribe audio file
-    transcription = transcriber(audiofile, max_new_tokens=1000000, padding=True)
-
-    print("Saving transcription to file")
-    transcription_path = os.path.join('transcriptions', title + '.txt')
-    with open(transcription_path, 'w') as f:
-        f.write(transcription['text'])
+    # delete audio mp3 and wav files
+    os.remove(tmp_audio_file)
+    os.remove(audiofile)
 
 
 if __name__ == '__main__':
-
     import sys
-    link = sys.argv[1]
+
+    # link = sys.argv[1]
+    # link = 'https://www.youtube.com/watch?v=v26CcifgEq4'  # toast masters speech
+    # link = 'https://www.youtube.com/watch?v=wMBHQktcSQ0'  # chris voigt bio talk
+    link = 'https://www.youtube.com/watch?v=2bZi3Xm9tJE'
     # link = 'https://www.youtube.com/watch?v=9FudzqfpLLs'
     transcribe_audio(str(link))
