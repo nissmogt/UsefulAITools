@@ -75,7 +75,7 @@ def transcribe_audio(url):
     # Use OpenAI Whisper to transcribe the wav audio
     model = whisper.load_model("base")
     transcription = model.transcribe(audiofile)
-    with open(os.path.join(transcription_path, title.strip(".mp3") + ".txt"), 'a') as f:
+    with open(os.path.join(transcription_path, title.strip(".mp3") + ".txt"), 'r') as f:
         f.write(transcription['text'] + ' ')
 
     # delete audio mp3 and wav files
