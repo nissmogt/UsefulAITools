@@ -12,7 +12,6 @@ import whisper
 import youtube_dl
 import subprocess
 from pathlib import Path
-from transformers import pipeline
 
 
 # Check if the audio file exists
