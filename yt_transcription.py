@@ -68,7 +68,7 @@ def transcribe_audio(url):
 
     # Convert the MP3 file to WAV
     tmp_audio_file = os.path.join(audio_path, title)
-    audiofile = os.path.join(audio_path, f"{title}.wav")
+    audiofile = os.path.join(audio_path, f"{title.strip('.mp3')}.wav")
     subprocess.call(['ffmpeg', '-i', tmp_audio_file, '-acodec', 'pcm_s16le', '-ac', '1',
                      '-ar', '16000', audiofile])
 
