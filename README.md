@@ -49,7 +49,7 @@ you can download and install it from the official website [here](https://git-scm
 2. Once you have Git installed, you can follow these steps to clone the repository:
 
 3. Open a terminal or command prompt and navigate to the directory where you want to clone the repository.
-Run the following command to clone the repository:```git clone nissmogt/UsefulAITools```
+Run the following command to clone the repository:```git clone https://github.com/nissmogt/UsefulAITools.git```
 4. See steps 1-3 in the Installation section above to install the dependencies and run the program.
 5. Run a test using instructions in Testing section above.
 6. You are now ready to use. Congrats noob, you're not a noob anymore. Enjoy!
