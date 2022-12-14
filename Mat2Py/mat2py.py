@@ -102,8 +102,21 @@ def iterate_for_compilable_solution(prompt, max_iter):
 
 if __name__ == "__main__":
     initialize_openai_api()
-    matlab_file_path = sys.argv[1]
-    # matlab_file_path = "test.m"
+    
+    # Use argparse to add iteration argument
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("matlab_file_path", help="path to the MATLAB file")
+    parser.add_argument("-i", "--iterations", type=int, default=3, help="number of iterations")
+    args = parser.parse_args()
+    max_iter = args.iterations
+    # if no file is given, use the test file
+    if args.matlab_file_path is None:
+        matlab_file_path = os.path.join('test', 'test.m')
+        
+    else:
+        matlab_file_path = args.matlab_file_path
+        
     matlab_input = create_input_prompt(matlab_file_path)
     print(matlab_input)
-    iterate_for_compilable_solution(prompt=matlab_input, max_iter=3)
+    iterate_for_compilable_solution(prompt=matlab_input, max_iter=max_iter)
