@@ -2,7 +2,7 @@
 # This python function uses the transformers library to transcribe an audio file from YouTube to text.
 #
 # Author: @nissmogt
-# Date: 2021-12-09
+# Date: 2022-12-09
 # Version: 1.0
 # Uses python 3.8.10
 #
