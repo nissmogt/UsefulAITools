@@ -98,4 +98,5 @@ if __name__ == '__main__':
         url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
     transcribe_audio(str(url))
+    print("Done! Transcription saved to {} directory.".format(os.path.join(os.getcwd(), 'transcriptions')))
 
