@@ -48,7 +48,7 @@ def generate_completion(input_prompt, num_tokens):
     # Use the OpenAI Codex API to convert the MATLAB code to Python
     response = openai.Completion.create(model="code-cushman-001", prompt=input_prompt, stop='===================\n',
                                         top_p=1.0, frequency_penalty=0.0, presence_penalty=0.0, stream=STREAM,
-                                        temperature=0.5, max_tokens=1024)
+                                        temperature=0.5, max_tokens=num_tokens)
 
     return response
 
@@ -65,7 +65,7 @@ def get_generated_response(response):
 
 
 # Write the generated Python code to a file
-def write_python_file(python_code):
+def write_python_file(python_code, matlab_file_path):
     python_file_path = os.path.splitext(matlab_file_path)[0] + ".py"
     with open(python_file_path, "w") as f:
         f.write(python_code)
@@ -82,12 +82,12 @@ def test_python_compilation(filename):
         return False
 
 
-def iterate_for_compilable_solution(prompt, max_iter):
+def iterate_for_compilable_solution(matlab_file_path, prompt, max_iter):
     print('Codex is looking for a compilable Python solution ...')
     for it in range(max_iter):
         response = generate_completion(prompt, num_tokens=MAX_TOKENS_DEFAULT)
         text_response = get_generated_response(response)
-        write_python_file(text_response)
+        write_python_file(text_response, matlab_file_path)
         filename = matlab_file_path.split(".")[0]
         with contextlib.redirect_stdout(None):
             compatible_code = test_python_compilation(filename + ".py")
@@ -106,17 +106,16 @@ if __name__ == "__main__":
     # Use argparse to add iteration argument
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("matlab_file_path", help="path to the MATLAB file")
+    parser.add_argument("matlab_file", help="MATLAB file")
     parser.add_argument("-i", "--iterations", type=int, default=3, help="number of iterations")
     args = parser.parse_args()
-    max_iter = args.iterations
+    maxiter = args.iterations
     # if no file is given, use the test file
-    if args.matlab_file_path is None:
-        matlab_file_path = os.path.join('test', 'test.m')
-        
+    if args.matlab_file is None:
+        matlab_file = os.path.join('test', 'test.m')
     else:
-        matlab_file_path = args.matlab_file_path
-        
-    matlab_input = create_input_prompt(matlab_file_path)
+        matlab_file = args.matlab_file
+
+    matlab_input = create_input_prompt(matlab_file)
     print(matlab_input)
-    iterate_for_compilable_solution(prompt=matlab_input, max_iter=max_iter)
+    iterate_for_compilable_solution(matlab_file, prompt=matlab_input, max_iter=maxiter)
