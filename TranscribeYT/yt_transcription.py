@@ -13,7 +13,6 @@ import os
 import whisper
 import youtube_dl
 import subprocess
-from pathlib import Path
 
 
 # Check if the audio file exists
@@ -55,14 +54,14 @@ def download_audio(url):
 
 def transcribe_audio(url):
     # Set the audio and transcription paths
-    audio_path = Path('audio')
-    transcription_path = Path('transcriptions')
+    audio_path = os.path.join(os.getcwd(), 'audio')
+    transcription_path = os.path.join(os.getcwd(), 'transcriptions')
 
     # Create the audio and transcription directories if they don't exist
-    if not audio_path.exists():
-        audio_path.mkdir()
-    if not transcription_path.exists():
-        transcription_path = transcription_path.mkdir()
+    if not os.path.exists(audio_path):
+        os.path.mkdir(audio_path)
+    if not os.path.exists(transcription_path):
+        os.path.mkdir(transcription_path)
 
     title = download_audio(url)
 
