@@ -13,6 +13,12 @@ import os
 import whisper
 import youtube_dl
 import subprocess
+import openai
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 
 # Check if the audio file exists
@@ -98,4 +104,3 @@ if __name__ == '__main__':
 
     transcribe_audio(str(url))
     print("Done! Transcription saved to {} directory.".format(os.path.join(os.getcwd(), 'transcriptions')))
-
