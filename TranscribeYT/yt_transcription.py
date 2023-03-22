@@ -42,7 +42,7 @@ def download_audio(url):
         'executable': '/usr/bin/aria2c',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'wav',
+            'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
         'delete_after': False,
@@ -57,7 +57,6 @@ def download_audio(url):
         info_dict = ydl.extract_info(url, download=True)
         video_title = info_dict.get('title', None)
         
-    # video_title = "audio.wav"
     return video_title
 
 
@@ -75,17 +74,22 @@ def transcribe_audio(url):
     title = download_audio(url)
     title = "audio"
 
-    # Convert the MP3 file to WAV
-    audiofile = os.path.join(audio_path, title + ".wav")
+    # Convert the MP3 to WAV
+    input_audiofile = os.path.join(audio_path, title + ".mp3")
+    output_audiofile = os.path.join(audio_path, title + ".wav")
+    subprocess.call(['ffmpeg', '-i', input_audiofile, '-acodec', 'pcm_s16le', '-ac', '1',
+                     '-ar', '16000', output_audiofile])
+
 
     # Use OpenAI Whisper to transcribe the wav audio
-    model = whisper.load_model("base")
-    transcription = model.transcribe(audiofile)
+    model = whisper.load_model("small")
+    transcription = model.transcribe(output_audiofile)
     with open(os.path.join(transcription_path, os.path.splitext(title)[0] + ".txt"), 'w') as f:
         f.write(transcription['text'] + ' ')
 
     # delete audio mp3 and wav files
-    os.remove(audiofile)
+    os.remove(output_audiofile)
+    os.remove(input_audiofile)
 
 
 if __name__ == '__main__':
