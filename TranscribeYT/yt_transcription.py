@@ -77,8 +77,6 @@ def transcribe_audio(url):
 
     # Convert the MP3 file to WAV
     audiofile = os.path.join(audio_path, title + ".wav")
-    # subprocess.call(['ffmpeg', '-i', to_convert_file, '-acodec', 'pcm_s16le', '-ac', '1',
-    #                  '-ar', '16000', audiofile])
 
     # Use OpenAI Whisper to transcribe the wav audio
     model = whisper.load_model("base")
