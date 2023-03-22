@@ -8,7 +8,7 @@
 #
 # Usage: python yt_transcription.py <youtube_url>
 
-
+import dependency_check
 import os
 import whisper
 import youtube_dl
@@ -90,6 +90,8 @@ def transcribe_audio(url):
 
 if __name__ == '__main__':
     import sys
+
+    dependency_check.check_dependencies()
 
     # add arguments to the script to run it from the command line
     if len(sys.argv) > 1:
