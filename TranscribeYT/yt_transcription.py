@@ -11,7 +11,7 @@
 import dependency_check
 import os
 import whisper
-import youtube_dl
+from yt_dlp import YoutubeDL
 import subprocess
 import openai
 from dotenv import load_dotenv
@@ -36,56 +36,61 @@ def check_audio_file(audiofile):
 def download_audio(url):
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': 'audio/audio.mp3',
+        'outtmpl': 'audio/audio',
         'external_downloader': 'aria2c',
         'external_downloader_args': ['-x16', '-k1M'],
         'executable': '/usr/bin/aria2c',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
+            'preferredcodec': 'wav',
             'preferredquality': '192',
         }],
         'delete_after': False,
         'extract_audio': True,
         'audio_format': 'mp3',
         'audio_quality': 0,
+        'no_check_certificate': True,
     }
 
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    video_title = None
+    with YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=True)
         video_title = info_dict.get('title', None)
-    video_title = "audio.mp3"
+        
+    # video_title = "audio.wav"
     return video_title
 
 
 def transcribe_audio(url):
+
     # Set the audio and transcription paths
     audio_path = os.path.join(os.getcwd(), 'audio')
     transcription_path = os.path.join(os.getcwd(), 'transcriptions')
 
     # Create the audio and transcription directories if they don't exist
-    if not os.path.exists(audio_path):
-        os.path.mkdir(audio_path)
-    if not os.path.exists(transcription_path):
-        os.path.mkdir(transcription_path)
+    # Create the audio and transcription directories if they don't exist
+    os.makedirs(audio_path, exist_ok=True)
+    os.makedirs(transcription_path, exist_ok=True)
 
     title = download_audio(url)
+    title = "audio"
 
     # Convert the MP3 file to WAV
-    tmp_audio_file = os.path.join(audio_path, title)
-    audiofile = os.path.join(audio_path, f"{title.strip('.mp3')}.wav")
-    subprocess.call(['ffmpeg', '-i', tmp_audio_file, '-acodec', 'pcm_s16le', '-ac', '1',
-                     '-ar', '16000', audiofile])
+    audiofile = os.path.join(audio_path, title + ".wav")
+    to_convert_file = os.path.join(audio_path, title + ".wav")
+    # subprocess.call(['ffmpeg', '-i', to_convert_file, '-acodec', 'pcm_s16le', '-ac', '1',
+    #                  '-ar', '16000', audiofile])
 
     # Use OpenAI Whisper to transcribe the wav audio
     model = whisper.load_model("base")
     transcription = model.transcribe(audiofile)
-    with open(os.path.join(transcription_path, title.strip(".mp3") + ".txt"), 'w') as f:
+    # transcription = model.transcribe(audiofile, use_fp16=False)
+    with open(os.path.join(transcription_path, os.path.splitext(title)[0] + ".txt"), 'w') as f:
         f.write(transcription['text'] + ' ')
 
     # delete audio mp3 and wav files
-    os.remove(tmp_audio_file)
-    os.remove(audiofile)
+    # os.remove(tmp_audio_file)
+    # os.remove(audiofile)
 
 
 if __name__ == '__main__':

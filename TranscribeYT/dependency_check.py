@@ -4,7 +4,7 @@ import subprocess
 
 def check_dependencies():
     try:
-        import youtube_dl
+        import yt_dlp
         import openai
         import whisper
         import dotenv
