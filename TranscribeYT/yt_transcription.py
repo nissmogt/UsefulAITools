@@ -106,7 +106,8 @@ if __name__ == '__main__':
     if not url:
         # url = 'https://www.youtube.com/watch?v=wMBHQktcSQ0'  # chris voigt bio talk
         # url = 'https://www.youtube.com/watch?v=2bZi3Xm9tJE'
-        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        # url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        url = 'https://www.youtube.com/watch?v=XxT-rWMalqM'
 
     transcribe_audio(str(url))
     print("Done! Transcription saved to {} directory.".format(os.path.join(os.getcwd(), 'transcriptions')))
