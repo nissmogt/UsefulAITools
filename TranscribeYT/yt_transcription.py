@@ -107,7 +107,11 @@ if __name__ == '__main__':
         # url = 'https://www.youtube.com/watch?v=wMBHQktcSQ0'  # chris voigt bio talk
         # url = 'https://www.youtube.com/watch?v=2bZi3Xm9tJE'
         # url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        url = 'https://www.youtube.com/watch?v=XxT-rWMalqM'
+        # url = 'https://www.youtube.com/watch?v=XxT-rWMalqM'
+        url = 'https://www.youtube.com/watch\?v\=QU6-2MEfVOc'   # neurocomp sci talk
+        
 
+    url = url.replace('\\', '')
+    print("Downloading audio from {}...".format(url))
     transcribe_audio(str(url))
     print("Done! Transcription saved to {} directory.".format(os.path.join(os.getcwd(), 'transcriptions')))
